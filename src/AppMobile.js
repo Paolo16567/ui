@@ -266,7 +266,7 @@ function AppMobile() {
     <div className="App mobile">
       <div className="app-header">
         <img 
-          src="/ui/public/images/windly-icon.png" 
+          src="%PUBLIC_URL%/images/windly-icon.png" 
           alt="Windly icon" 
           className="app-icon"
         />
