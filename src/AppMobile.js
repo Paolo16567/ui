@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import * as d3 from 'd3';
 import L from 'leaflet';
@@ -7,6 +7,8 @@ import './App.css';
 import WeatherChart from './components/WeatherChart';
 import ForecastChart from './components/ForecastChart';
 
+const SERVER_URL = 'https://b0e0-95-232-172-92.ngrok-free.app';
+
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
@@ -14,7 +16,30 @@ L.Icon.Default.mergeOptions({
   shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
 });
 
-function App() {
+// Componente mappa separato
+const Map = ({ center, zoom, cityInfo, weatherData }) => {
+  return (
+    <MapContainer key={`${center[0]}-${center[1]}`} center={center} zoom={zoom} style={{ height: '200px', width: '100%' }}>
+      <TileLayer
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      />
+      <Marker position={center}>
+        <Popup>
+          <b>{cityInfo.name}</b><br />
+          {weatherData && (
+            <>
+              Temp: {weatherData.temp}°C<br />
+              {weatherData.description}
+            </>
+          )}
+        </Popup>
+      </Marker>
+    </MapContainer>
+  );
+};
+
+function AppMobile() {
   const [currentCity, setCurrentCity] = useState('');
   const [weatherData, setWeatherData] = useState(null);
   const [forecastData, setForecastData] = useState(null);
@@ -23,6 +48,14 @@ function App() {
   const [userInput, setUserInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [cityInfo, setCityInfo] = useState({ name: '', lat: 0, lon: 0 });
+
+  const chatRef = useRef(null);
+
+  useEffect(() => {
+    if (chatRef.current) {
+      chatRef.current.scrollTop = chatRef.current.scrollHeight;
+    }
+  }, [chatMessages]);
 
   useEffect(() => {
     fetchWeatherData(currentCity);
@@ -37,9 +70,10 @@ function App() {
   const fetchWeatherData = async (city) => {
     setIsLoading(true);
     try {
-      const response = await fetch(`/weather?city=${city}`);
+//      const response = await fetch(`/weather?city=${encodeURIComponent(city)}`);
+      const response = await fetch(`${SERVER_URL}/weather?city=${encodeURIComponent(city)}`);
       if (!response.ok) {
-        throw new Error('Errore nel recupero dei dati meteo');
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
       console.log("Dati ricevuti:", data);
@@ -85,7 +119,8 @@ function App() {
       setUserInput('');
 
       try {
-        const response = await fetch('/chat', {
+//        const response = await fetch('/chat', {
+        const response = await fetch(`${SERVER_URL}/chat`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -228,109 +263,103 @@ function App() {
   if (!weatherData) return <div>Caricamento...</div>;
 
   return (
-    <div className="App">
-      <h1>Windly - Meteo Salento</h1>
+    <div className="App mobile">
+      <div className="app-header">
+        <img 
+          src="/images/windly-icon.png" 
+          alt="Windly icon" 
+          className="app-icon"
+        />
+        <h1>Windly - Meteo Salento</h1>
+      </div>
       
-      <div className="dashboard">
-        <div className="map-and-chat-container">
-          <div className="chat-section">
-        <h3>Chat Assistente Meteo</h3>
-        <div className="chat-messages">
-          {chatMessages.map((msg, index) => (
-            <div key={index} className={`message ${msg.isUser ? 'user-message' : 'ai-message'}`}>
-              <span className="message-sender">{msg.isUser ? 'Tu: ' : 'AI: '}</span>
-              <span className="message-text">{msg.text}</span>
-    </div>
-          ))}
+      <div className="mobile-dashboard">
+        <div className="mobile-chat-section">
+          <h3>Chat Assistente Meteo</h3>
+          <div className="chat-messages" ref={chatRef}>
+            {chatMessages.map((msg, index) => (
+              <div key={index} className={`message ${msg.isUser ? 'user-message' : 'ai-message'}`}>
+                <span className="message-sender">{msg.isUser ? 'Tu: ' : 'AI: '}</span>
+                <span className="message-text">{msg.text}</span>
+              </div>
+            ))}
+          </div>
+          <div className="chat-input">
+            <input
+              type="text"
+              value={userInput}
+              onChange={(e) => setUserInput(e.target.value)}
+              placeholder="Chiedi informazioni sul meteo..."
+              disabled={isLoading}
+            />
+            <button onClick={sendMessage} disabled={isLoading}>
+              {isLoading ? 'Invio...' : 'Invia'}
+            </button>
+          </div>
         </div>
-        <div className="chat-input">
-          <input
-            type="text"
-            value={userInput}
-            onChange={(e) => setUserInput(e.target.value)}
-            placeholder="Chiedi informazioni sul meteo..."
-            disabled={isLoading}
-          />
-          <button onClick={sendMessage} disabled={isLoading}>
-            {isLoading ? 'Invio...' : 'Invia'}
-          </button>
-        </div>
-      </div>
-          <div className="map-container">
-          <MapComponent />
-        </div>
-    </div>
 
-    <div className="current-temp">
-      <div className="temp-icon-container">
-        {weatherData.icon && (
-          <img 
-            src={`http://openweathermap.org/img/wn/${weatherData.icon}@2x.png`} 
-            alt="Condizioni meteo" 
-            className="weather-icon"
-            onError={(e) => {
-              console.error("Errore nel caricamento dell'icona:", e);
-              e.target.onerror = null; 
-              e.target.src = '/path/to/fallback/image.png'; // Sostituisci con il percorso della tua immagine di fallback
-            }}
-          />
-        )}
-        <h2>Temperatura Attuale: {weatherData.temp}°C</h2>
-      </div>
-    </div>
+        <div className="current-temp">
+          <div className="temp-icon-container">
+            {weatherData && weatherData.icon && (
+              <img 
+                src={`http://openweathermap.org/img/wn/${weatherData.icon}@2x.png`} 
+                alt="Condizioni meteo" 
+                className="weather-icon"
+              />
+            )}
+          </div>
+          <div className="weather-description">
+            <p>
+              {weatherData ? (
+                <>
+                  <span className="temp">{weatherData.temp}°C</span>
+                  <span className="separator"> - </span>
+                  <span className="description">{weatherData.description}</span>
+                </>
+              ) : ''}
+            </p>
+          </div>
+        </div>
 
-      <div className="wind-and-info-section">
-        <div className="wind-section">
+        <div className="mobile-map-container">
+          {cityInfo.lat !== 0 && cityInfo.lon !== 0 && (
+            <Map 
+              center={[cityInfo.lat, cityInfo.lon]} 
+              zoom={10} 
+              cityInfo={cityInfo}
+              weatherData={weatherData}
+            />
+          )}
+        </div>
+
+        <div className="mobile-wind-section">
           <h3>Vento</h3>
-          <svg id="wind-rose"></svg>
-          <p>{weatherData.wind_speed} km/h, {weatherData.wind_deg}°</p>
-      </div>
-          
-          <div className="generic-info-section">
-            <div className="humidity-pressure-section">
-              <h3>Umidità e Pressione</h3>
+          <svg id="wind-rose" width="150" height="150"></svg>
+          {weatherData && (
+            <p>{weatherData.wind_speed} km/h, {weatherData.wind_deg}°</p>
+          )}
+        </div>
+
+        <div className="mobile-info-section">
+          {weatherData && (
+            <>
               <div>Umidità: {weatherData.humidity}%</div>
               <div>Pressione: {weatherData.pressure} hPa</div>
-    </div>
-            
-            <div className="visibility-clouds-section">
-              <h3>Visibilità e Nuvolosità</h3>
               <div>Visibilità: {weatherData.visibility} m</div>
               <div>Nuvolosità: {weatherData.clouds}%</div>
-            </div>
-          </div>
+            </>
+          )}
         </div>
 
         {forecastData && historicalData && (
-          <div className="weather-charts-section">
-            <div className="charts-container">
-              <div className="chart-column">
-                <h3>Temperatura ultime 24 ore</h3>
-                <WeatherChart 
-                  historicalData={historicalData}
-                  currentTemp={weatherData.temp}
-                />
-              </div>
-              <div className="chart-column">
-                <h3>Previsioni prossimi giorni</h3>
-                <ForecastChart forecastData={forecastData} />
-              </div>
-            </div>
-          </div>
-        )}
-
-        {forecastData && (
-          <div className="forecast-details-section">
-            <h3>Dettagli previsioni</h3>
-            <div className="forecast-details-grid">
-              {forecastData.map((day, index) => (
-                <div key={index} className="forecast-day">
-                  <p className="day-name">{getDayName(index + 1)}</p>
-                  <p>Max: {day.temp_max}°C</p>
-                  <p>Min: {day.temp_min}°C</p>
-                </div>
-              ))}
-            </div>
+          <div className="mobile-weather-charts-section">
+            <h3>Temperatura ultime 24 ore</h3>
+            <WeatherChart 
+              historicalData={historicalData}
+              currentTemp={weatherData ? weatherData.temp : 0}
+            />
+            <h3>Previsioni prossimi giorni</h3>
+            <ForecastChart forecastData={forecastData} />
           </div>
         )}
       </div>
@@ -338,4 +367,5 @@ function App() {
   );
 }
 
-export default App;
+export default AppMobile;
+

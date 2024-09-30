@@ -1,38 +1,299 @@
 .App {
   text-align: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+h1 {
+  margin-bottom: 20px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.favorites {
+  margin-bottom: 20px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.favorite-city {
+  margin-right: 10px;
+  cursor: pointer;
+  color: #007bff;
+}
+
+.favorite-city:hover {
+  text-decoration: underline;
+}
+
+.dashboard {
   display: flex;
   flex-direction: column;
+  gap: 20px;
+}
+
+.map-and-chat-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 400px; /* Regola l'altezza come preferisci */
+}
+
+.chat-section {
+  width: 40%; /* Regola la larghezza come preferisci */
+  padding: 10px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.map-container {
+  width: 60%; /* Regola la larghezza come preferisci */
+  height: 100%;
+}
+
+.chat-messages {
+  height: 300px; /* Regola l'altezza come preferisci */
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.message {
+  margin-bottom: 10px;
+}
+
+.user-message {
+  text-align: right;
+  color: blue;
+}
+
+.ai-message {
+  text-align: left;
+  color: green;
+}
+
+.message-sender {
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.chat-input {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.chat-input input {
+  flex-grow: 1;
+  padding: 5px;
+}
+
+.chat-input button {
+  padding: 5px 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.chat-input button:hover {
+  background-color: #0056b3;
+}
+
+.main-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.wind-and-info-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.wind-section {
+  flex: 1;
+}
+
+.generic-info-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.humidity-pressure-section,
+.visibility-clouds-section {
+  background-color: #f0f0f0;
+  padding: 15px;
+  border-radius: 8px;
+}
+
+.temperature-charts {
+  margin-top: 20px;
+}
+
+.weather-charts-section {
+  margin-top: 20px;
+}
+
+.charts-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.chart-column {
+  flex: 1;
+  min-width: 0;
+}
+
+.forecast-details-section {
+  margin-top: 20px;
+}
+
+.forecast-details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+}
+
+.day-name {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.forecast-day {
+  background-color: #f0f0f0;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.current-temp {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.temp-icon-container {
+  display: flex;
+  align-items: center;
+}
+
+.weather-icon {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+}
+
+#wind-rose {
+  margin: 20px auto;
+  display: block;
+}
+
+.direction {
+  font-family: Arial, sans-serif;
+}
+
+/* Stili per la versione mobile */
+.mobile .app-header {
+  display: flex;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  padding: 15px 0;
+  background-color: #f0f8ff; /* Azzurro chiaro */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.App-link {
-  color: #61dafb;
+.mobile .app-icon {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.mobile h1 {
+  font-size: 1.8em;
+  color: #333;
+  margin: 0;
+}
+
+.mobile .mobile-dashboard {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.mobile .current-temp {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.mobile .weather-icon {
+  width: 60px;
+  height: 60px;
+  margin-right: 10px;
+}
+
+.mobile .weather-description {
+  display: flex;
+  align-items: center;
+  font-size: 1.2em;
+  color: #333;
+}
+
+.mobile .weather-description .temp {
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.mobile .weather-description .separator {
+  margin: 0 5px;
+  color: #888;
+}
+
+.mobile .weather-description .description {
+  text-transform: capitalize;
+}
+
+.mobile .weather-description p {
+  margin: 0;
+  font-size: 1.2em;
+  color: #333;
+  display: flex;
+  align-items: center;
+}
+
+/* Adatta i grafici per schermi più piccoli */
+.mobile .recharts-wrapper {
+  width: 100% !important;
+  height: auto !important;
+}
+
+.mobile h1, .mobile h2, .mobile h3 {
+  text-align: center;
+}
+
+.mobile .temp-icon-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 5px; /* Ridotto da 10px a 5px */
+}
+
+.mobile .weather-icon {
+  width: 70px; /* Aumentato da 50px a 70px */
+  height: 70px; /* Aumentato da 50px a 70px */
 }
