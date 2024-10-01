@@ -33,7 +33,7 @@ h1 {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  height: 400px;
+  height: 400px; /* Regola l'altezza come preferisci */
 }
 
 .chat-section {
@@ -49,6 +49,57 @@ h1 {
 .map-container {
   width: 60%; /* Regola la larghezza come preferisci */
   height: 100%;
+}
+
+.chat-messages {
+  height: 300px; /* Regola l'altezza come preferisci */
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.message {
+  margin-bottom: 10px;
+}
+
+.user-message {
+  text-align: right;
+  color: blue;
+}
+
+.ai-message {
+  text-align: left;
+  color: green;
+}
+
+.message-sender {
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.chat-input {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.chat-input input {
+  flex-grow: 1;
+  padding: 5px;
+}
+
+.chat-input button {
+  padding: 5px 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.chat-input button:hover {
+  background-color: #0056b3;
 }
 
 .main-section {
@@ -123,6 +174,24 @@ h1 {
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
+.current-temp {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.temp-icon-container {
+  display: flex;
+  align-items: center;
+}
+
+.weather-icon {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+}
+
 #wind-rose {
   margin: 20px auto;
   display: block;
@@ -155,148 +224,59 @@ h1 {
 }
 
 .mobile .mobile-dashboard {
-  padding: 1rem;
-}
-
-.mobile .weather-overview {
-  background-color: #f0f8ff;
-  border-radius: 10px;
-  padding: 1rem;
-  margin-bottom: 1rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
 }
 
 .mobile .current-temp {
   display: flex;
   align-items: center;
-  margin-bottom: 1rem;
-}
-
-.mobile .temp-icon-container {
-  margin-right: 1rem;
+  justify-content: center;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .mobile .weather-icon {
-  width: 64px;
-  height: 64px;
+  width: 60px;
+  height: 60px;
+  margin-right: 10px;
 }
 
 .mobile .weather-description {
-  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  font-size: 1.2em;
+  color: #333;
 }
 
-.mobile .temp {
-  font-size: 2rem;
+.mobile .weather-description .temp {
   font-weight: bold;
-  margin-right: 0.5rem;
+  margin-right: 5px;
 }
 
-.mobile .description {
-  font-size: 1.2rem;
+.mobile .weather-description .separator {
+  margin: 0 5px;
+  color: #888;
 }
 
-.mobile .weather-details {
+.mobile .weather-description .description {
+  text-transform: capitalize;
+}
+
+.mobile .weather-description p {
+  margin: 0;
+  font-size: 1.2em;
+  color: #333;
   display: flex;
-  justify-content: space-between;
+  align-items: center;
 }
 
-.mobile .wind-info {
-  flex: 1;
-  text-align: center;
-}
-
-.mobile .additional-info {
-  flex: 1;
-}
-
-.mobile .info-item {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 0.5rem;
-}
-
-.mobile .info-label {
-  font-weight: bold;
-}
-
-.mobile .mobile-map-container {
-  height: 200px;
-  margin-bottom: 1rem;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.mobile .mobile-weather-charts-section {
-  margin-bottom: 1rem;
-}
-
-.mobile .chart-container {
-  background-color: white;
-  border-radius: 10px;
-  padding: 1rem;
-  margin-bottom: 1rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.mobile .chart-container h3 {
-  margin-top: 0;
-  margin-bottom: 0.5rem;
-}
-
-.mobile .mobile-chat-section {
-  background-color: white;
-  border-radius: 10px;
-  padding: 1rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.mobile .chat-messages {
-  max-height: 300px;
-  overflow-y: auto;
-  margin-bottom: 1rem;
-}
-
-.mobile .message {
-  margin-bottom: 0.5rem;
-  padding: 0.5rem;
-  border-radius: 5px;
-}
-
-.mobile .user-message {
-  background-color: #e6f3ff;
-  text-align: right;
-}
-
-.mobile .ai-message {
-  background-color: #f0f0f0;
-}
-
-.mobile .chat-input {
-  display: flex;
-}
-
-.mobile .chat-input input {
-  flex-grow: 1;
-  margin-right: 0.5rem;
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-.mobile .chat-input button {
-  padding: 0.5rem 1rem;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.mobile .chat-input button:disabled {
-  background-color: #ccc;
-}
-
+/* Adatta i grafici per schermi più piccoli */
 .mobile .recharts-wrapper {
   width: 100% !important;
   height: auto !important;
@@ -304,4 +284,16 @@ h1 {
 
 .mobile h1, .mobile h2, .mobile h3 {
   text-align: center;
+}
+
+.mobile .temp-icon-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 5px; /* Ridotto da 10px a 5px */
+}
+
+.mobile .weather-icon {
+  width: 70px; /* Aumentato da 50px a 70px */
+  height: 70px; /* Aumentato da 50px a 70px */
 }

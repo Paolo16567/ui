@@ -274,90 +274,6 @@ function AppMobile() {
       </div>
       
       <div className="mobile-dashboard">
-        <div className="weather-overview">
-          <div className="current-temp">
-            <div className="temp-icon-container">
-              {weatherData && weatherData.icon && (
-                <img 
-                  src={`http://openweathermap.org/img/wn/${weatherData.icon}@2x.png`} 
-                  alt="Condizioni meteo" 
-                  className="weather-icon"
-                />
-              )}
-            </div>
-            <div className="weather-description">
-              <p>
-                {weatherData ? (
-                  <>
-                    <span className="temp">{weatherData.temp}°C</span>
-                    <span className="description">{weatherData.description}</span>
-                  </>
-                ) : ''}
-              </p>
-            </div>
-          </div>
-
-          <div className="weather-details">
-            <div className="wind-info">
-              <h3>Vento</h3>
-              <svg id="wind-rose" width="150" height="150"></svg>
-              {weatherData && (
-                <p>{weatherData.wind_speed} km/h, {weatherData.wind_deg}°</p>
-              )}
-            </div>
-
-            <div className="additional-info">
-              {weatherData && (
-                <>
-                  <div className="info-item">
-                    <span className="info-label">Umidità:</span>
-                    <span className="info-value">{weatherData.humidity}%</span>
-                  </div>
-                  <div className="info-item">
-                    <span className="info-label">Pressione:</span>
-                    <span className="info-value">{weatherData.pressure} hPa</span>
-                  </div>
-                  <div className="info-item">
-                    <span className="info-label">Visibilità:</span>
-                    <span className="info-value">{weatherData.visibility} m</span>
-                  </div>
-                  <div className="info-item">
-                    <span className="info-label">Nuvolosità:</span>
-                    <span className="info-value">{weatherData.clouds}%</span>
-                  </div>
-                </>
-              )}
-            </div>
-          </div>
-        </div>
-
-        <div className="mobile-map-container">
-          {cityInfo.lat !== 0 && cityInfo.lon !== 0 && (
-            <Map 
-              center={[cityInfo.lat, cityInfo.lon]} 
-              zoom={10} 
-              cityInfo={cityInfo}
-              weatherData={weatherData}
-            />
-          )}
-        </div>
-
-        {forecastData && historicalData && (
-          <div className="mobile-weather-charts-section">
-            <div className="chart-container">
-              <h3>Temperatura ultime 24 ore</h3>
-              <WeatherChart 
-                historicalData={historicalData}
-                currentTemp={weatherData ? weatherData.temp : 0}
-              />
-            </div>
-            <div className="chart-container">
-              <h3>Previsioni prossimi giorni</h3>
-              <ForecastChart forecastData={forecastData} />
-            </div>
-          </div>
-        )}
-
         <div className="mobile-chat-section">
           <h3>Chat Assistente Meteo</h3>
           <div className="chat-messages" ref={chatRef}>
@@ -381,6 +297,71 @@ function AppMobile() {
             </button>
           </div>
         </div>
+
+        <div className="current-temp">
+          <div className="temp-icon-container">
+            {weatherData && weatherData.icon && (
+              <img 
+                src={`http://openweathermap.org/img/wn/${weatherData.icon}@2x.png`} 
+                alt="Condizioni meteo" 
+                className="weather-icon"
+              />
+            )}
+          </div>
+          <div className="weather-description">
+            <p>
+              {weatherData ? (
+                <>
+                  <span className="temp">{weatherData.temp}°C</span>
+                  <span className="separator"> - </span>
+                  <span className="description">{weatherData.description}</span>
+                </>
+              ) : ''}
+            </p>
+          </div>
+        </div>
+
+        <div className="mobile-map-container">
+          {cityInfo.lat !== 0 && cityInfo.lon !== 0 && (
+            <Map 
+              center={[cityInfo.lat, cityInfo.lon]} 
+              zoom={10} 
+              cityInfo={cityInfo}
+              weatherData={weatherData}
+            />
+          )}
+        </div>
+
+        <div className="mobile-wind-section">
+          <h3>Vento</h3>
+          <svg id="wind-rose" width="150" height="150"></svg>
+          {weatherData && (
+            <p>{weatherData.wind_speed} km/h, {weatherData.wind_deg}°</p>
+          )}
+        </div>
+
+        <div className="mobile-info-section">
+          {weatherData && (
+            <>
+              <div>Umidità: {weatherData.humidity}%</div>
+              <div>Pressione: {weatherData.pressure} hPa</div>
+              <div>Visibilità: {weatherData.visibility} m</div>
+              <div>Nuvolosità: {weatherData.clouds}%</div>
+            </>
+          )}
+        </div>
+
+        {forecastData && historicalData && (
+          <div className="mobile-weather-charts-section">
+            <h3>Temperatura ultime 24 ore</h3>
+            <WeatherChart 
+              historicalData={historicalData}
+              currentTemp={weatherData ? weatherData.temp : 0}
+            />
+            <h3>Previsioni prossimi giorni</h3>
+            <ForecastChart forecastData={forecastData} />
+          </div>
+        )}
       </div>
     </div>
   );
