@@ -19,7 +19,7 @@ L.Icon.Default.mergeOptions({
 // Componente mappa separato
 const Map = ({ center, zoom, cityInfo, weatherData }) => {
   return (
-    <MapContainer key={`${center[0]}-${center[1]}`} center={center} zoom={zoom} style={{ height: '200px', width: '100%' }}>
+    <MapContainer key={`${center[0]}-${center[1]}`} center={center} zoom={zoom} style={{ height: '100%', width: '100%' }}>
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -274,6 +274,30 @@ function AppMobile() {
       </div>
       
       <div className="mobile-dashboard">
+        <div className="mobile-chat-section">
+          <h3>Chat Assistente Meteo</h3>
+          <div className="chat-messages" ref={chatRef}>
+            {chatMessages.map((msg, index) => (
+              <div key={index} className={`message ${msg.isUser ? 'user-message' : 'ai-message'}`}>
+                <span className="message-sender">{msg.isUser ? 'Tu: ' : 'Windly: '}</span>
+                <span className="message-text">{msg.text}</span>
+              </div>
+            ))}
+          </div>
+          <div className="chat-input">
+            <input
+              type="text"
+              value={userInput}
+              onChange={(e) => setUserInput(e.target.value)}
+              placeholder="Chiedi informazioni sul meteo..."
+              disabled={isLoading}
+            />
+            <button onClick={sendMessage} disabled={isLoading}>
+              {isLoading ? 'Invio...' : 'Invia'}
+            </button>
+          </div>
+        </div>
+
         <div className="weather-overview">
           <div className="current-temp">
             <div className="temp-icon-container">
@@ -297,18 +321,10 @@ function AppMobile() {
             </div>
           </div>
 
-          <div className="weather-details">
-            <div className="wind-info">
-              <h3>Vento</h3>
-              <svg id="wind-rose" width="150" height="150"></svg>
-              {weatherData && (
-                <p>{weatherData.wind_speed} km/h, {weatherData.wind_deg}°</p>
-              )}
-            </div>
-
-            <div className="additional-info">
-              {weatherData && (
-                <>
+          <div className="additional-info">
+            {weatherData && (
+              <>
+                <div className="info-row">
                   <div className="info-item">
                     <span className="info-label">Umidità:</span>
                     <span className="info-value">{weatherData.humidity}%</span>
@@ -317,6 +333,8 @@ function AppMobile() {
                     <span className="info-label">Pressione:</span>
                     <span className="info-value">{weatherData.pressure} hPa</span>
                   </div>
+                </div>
+                <div className="info-row">
                   <div className="info-item">
                     <span className="info-label">Visibilità:</span>
                     <span className="info-value">{weatherData.visibility} m</span>
@@ -325,9 +343,17 @@ function AppMobile() {
                     <span className="info-label">Nuvolosità:</span>
                     <span className="info-value">{weatherData.clouds}%</span>
                   </div>
-                </>
-              )}
-            </div>
+                </div>
+              </>
+            )}
+          </div>
+
+          <div className="wind-info">
+            <h3>Vento</h3>
+            <svg id="wind-rose" width="150" height="150"></svg>
+            {weatherData && (
+              <p>{weatherData.wind_speed} km/h, {weatherData.wind_deg}°</p>
+            )}
           </div>
         </div>
 
@@ -345,42 +371,22 @@ function AppMobile() {
         {forecastData && historicalData && (
           <div className="mobile-weather-charts-section">
             <div className="chart-container">
-              <h3>Temperatura ultime 24 ore</h3>
-              <WeatherChart 
-                historicalData={historicalData}
-                currentTemp={weatherData ? weatherData.temp : 0}
-              />
+              <div className="chart-item">
+                <h3>Temperatura ultime 24 ore</h3>
+                <WeatherChart 
+                  historicalData={historicalData}
+                  currentTemp={weatherData ? weatherData.temp : 0}
+                />
+              </div>
             </div>
             <div className="chart-container">
-              <h3>Previsioni prossimi giorni</h3>
-              <ForecastChart forecastData={forecastData} />
+              <div className="chart-item">
+                <h3>Previsioni prossimi giorni</h3>
+                <ForecastChart forecastData={forecastData} />
+              </div>
             </div>
           </div>
         )}
-
-        <div className="mobile-chat-section">
-          <h3>Chat Assistente Meteo</h3>
-          <div className="chat-messages" ref={chatRef}>
-            {chatMessages.map((msg, index) => (
-              <div key={index} className={`message ${msg.isUser ? 'user-message' : 'ai-message'}`}>
-                <span className="message-sender">{msg.isUser ? 'Tu: ' : 'AI: '}</span>
-                <span className="message-text">{msg.text}</span>
-              </div>
-            ))}
-          </div>
-          <div className="chat-input">
-            <input
-              type="text"
-              value={userInput}
-              onChange={(e) => setUserInput(e.target.value)}
-              placeholder="Chiedi informazioni sul meteo..."
-              disabled={isLoading}
-            />
-            <button onClick={sendMessage} disabled={isLoading}>
-              {isLoading ? 'Invio...' : 'Invia'}
-            </button>
-          </div>
-        </div>
       </div>
     </div>
   );

@@ -37,7 +37,7 @@ h1 {
 }
 
 .chat-section {
-  width: 40%; /* Regola la larghezza come preferisci */
+  width: 40%;
   padding: 10px;
   overflow-y: auto;
   display: flex;
@@ -47,7 +47,7 @@ h1 {
 }
 
 .map-container {
-  width: 60%; /* Regola la larghezza come preferisci */
+  width: 60%;
   height: 100%;
 }
 
@@ -138,7 +138,7 @@ h1 {
   align-items: center;
   justify-content: center;
   padding: 15px 0;
-  background-color: #f0f8ff; /* Azzurro chiaro */
+  background-color: #f0f8ff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -158,96 +158,11 @@ h1 {
   padding: 1rem;
 }
 
-.mobile .weather-overview {
-  background-color: #f0f8ff;
-  border-radius: 10px;
-  padding: 1rem;
-  margin-bottom: 1rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.mobile .current-temp {
-  display: flex;
-  align-items: center;
-  margin-bottom: 1rem;
-}
-
-.mobile .temp-icon-container {
-  margin-right: 1rem;
-}
-
-.mobile .weather-icon {
-  width: 64px;
-  height: 64px;
-}
-
-.mobile .weather-description {
-  flex-grow: 1;
-}
-
-.mobile .temp {
-  font-size: 2rem;
-  font-weight: bold;
-  margin-right: 0.5rem;
-}
-
-.mobile .description {
-  font-size: 1.2rem;
-}
-
-.mobile .weather-details {
-  display: flex;
-  justify-content: space-between;
-}
-
-.mobile .wind-info {
-  flex: 1;
-  text-align: center;
-}
-
-.mobile .additional-info {
-  flex: 1;
-}
-
-.mobile .info-item {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 0.5rem;
-}
-
-.mobile .info-label {
-  font-weight: bold;
-}
-
-.mobile .mobile-map-container {
-  height: 200px;
-  margin-bottom: 1rem;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.mobile .mobile-weather-charts-section {
-  margin-bottom: 1rem;
-}
-
-.mobile .chart-container {
-  background-color: white;
-  border-radius: 10px;
-  padding: 1rem;
-  margin-bottom: 1rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.mobile .chart-container h3 {
-  margin-top: 0;
-  margin-bottom: 0.5rem;
-}
-
 .mobile .mobile-chat-section {
   background-color: white;
   border-radius: 10px;
   padding: 1rem;
+  margin-bottom: 1rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -297,11 +212,151 @@ h1 {
   background-color: #ccc;
 }
 
+.mobile .weather-overview {
+  background-color: #f0f8ff;
+  border-radius: 10px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.mobile .current-temp {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.mobile .temp-icon-container {
+  margin-right: 1rem;
+}
+
+.mobile .weather-icon {
+  width: 64px;
+  height: 64px;
+}
+
+.mobile .weather-description {
+  flex-grow: 1;
+}
+
+.mobile .temp {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-right: 0.5rem;
+}
+
+.mobile .description {
+  font-size: 1.2rem;
+}
+
+.mobile .additional-info {
+  margin-bottom: 1rem;
+}
+
+.mobile .info-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.mobile .info-item {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 0.5rem;
+}
+
+.mobile .info-label {
+  font-weight: bold;
+}
+
+.mobile .wind-info {
+  text-align: center;
+}
+
+.mobile .mobile-map-container {
+  height: 300px;
+  margin-bottom: 1rem;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.mobile .mobile-weather-charts-section {
+  margin-bottom: 1rem;
+}
+
+.mobile .chart-container {
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 1rem;
+    margin-bottom: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+.mobile .chart-item {
+  width: 100%;
+  }
+
+.mobile .chart-item h3 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.mobile .chart-item > div {
+  width: 100%;
+  height: 250px;
+}
+
 .mobile .recharts-wrapper {
   width: 100% !important;
   height: auto !important;
 }
 
+.mobile .recharts-surface {
+  overflow: visible;
+}
+
+.mobile .recharts-cartesian-grid-horizontal line,
+.mobile .recharts-cartesian-grid-vertical line {
+  stroke: #e0e0e0;
+}
+
+.mobile .recharts-cartesian-axis-tick-value {
+  font-size: 0.8rem;
+  fill: #666;
+}
+
+.mobile .recharts-tooltip-wrapper {
+  background-color: rgba(255, 255, 255, 0.9) !important;
+  border: 1px solid #ccc !important;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.mobile .recharts-default-tooltip {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.mobile .recharts-tooltip-item {
+  color: #333 !important;
+}
+
 .mobile h1, .mobile h2, .mobile h3 {
   text-align: center;
+}
+
+/* Media query per schermi più piccoli */
+@media (max-width: 600px) {
+  .mobile .chart-item > div {
+    height: 200px;
+  }
+
+  .mobile .chart-item h3 {
+    font-size: 1rem;
+  }
 }
